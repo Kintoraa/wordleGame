@@ -23,7 +23,6 @@ export const WORD = [
   "usure",
   "vivre",
   "wagon",
-  "xylo",
   "zebre",
 ];
 
