@@ -74,8 +74,8 @@ export const LineBoard = () => {
           caseKeys[currentId].innerText = key;
           setCurrentId((prevId) => prevId + 1);
         }
-      } else if (e.key === "Backspace") {
-        if (currentId > 0) {
+      } else if (e.key === "Backspace" && !isCompleted) {
+        if (currentId > 0 && currentId > Math.floor(currentId / 5) * 5) {
           setIsCompleted(false);
           setCurrentId((prevId) => prevId - 1);
           caseKeys[currentId - 1].innerText = "";
