@@ -1,10 +1,13 @@
 import { Confetti } from "../animation/Confetti.jsx";
 import win from "../../sounds/confetti.mp3";
+import { useEffect } from "react";
 
 export const WinDialog = () => {
-  const win_mp3 = new Audio(win);
-  win_mp3.volume = 0.2;
-  win_mp3.play();
+  useEffect(() => {
+    const win_mp3 = new Audio(win);
+    win_mp3.volume = 0.2;
+    win_mp3.play();
+  }, []);
 
   return (
     <dialog

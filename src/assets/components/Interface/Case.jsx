@@ -19,7 +19,9 @@ export const CaseKeyBoard = ({ setClicledKey }) => {
     <>
       {alphabetKeyBoard.map((letter, i) => (
         <button
-          className={`flex size-10 items-center justify-center  rounded border border-gray-500 text-xl font-bold text-white ${classLetter[letter]} `}
+          className={` flex  items-center justify-center  rounded border border-gray-500 text-xl font-bold text-white ${
+            classLetter[letter]
+          } ${letter === "↵" || letter === "˿" ? "h-10 w-16" : "size-10 "}`}
           ref={ref}
           value={letter}
           key={letter}

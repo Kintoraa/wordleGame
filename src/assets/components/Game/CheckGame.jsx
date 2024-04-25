@@ -6,6 +6,9 @@ import { WinDialog } from "./WinDialog.jsx";
 import { Case } from "../Interface/Case.jsx";
 import { KeyBoard } from "../Interface/KeyBoard.jsx";
 import { alphabet } from "../general/alphabet.js";
+import correct from "../../sounds/correct.mp3";
+import good from "../../sounds/good.mp3";
+import error from "../../sounds/error.mp3";
 
 const gameStats = {
   win: 5,
@@ -18,6 +21,11 @@ const gameStats = {
     green: "bg-green-500",
     orange: "bg-orange-500",
     red: "bg-red-500",
+  },
+  audio: {
+    correct: correct,
+    good: good,
+    error: error,
   },
 };
 
@@ -51,7 +59,9 @@ export const CheckGame = () => {
         removeText();
     };
 
-    const addColor = (index, color) => {
+    const addClass = (index, color, audio) => {
+      const mp3 = new Audio(audio);
+      mp3.play();
       caseKeys[index].classList.add(color);
       caseKeys[index].classList.add("checked");
     };
@@ -82,33 +92,36 @@ export const CheckGame = () => {
         setTimeout(
           () => {
             let comparisonIndex = i % gameStats.row;
+            // Very Good Letter
             if (
               word.toUpperCase().includes(caseKeys[i].innerText) &&
               caseKeys[i].innerText.toUpperCase() ===
                 words[comparisonIndex].toUpperCase()
             ) {
-              addColor(i, gameStats.color.green);
-              addColorKeyBoard(i, gameStats.color.green);
+              addClass(i, gameStats.color.green);
+              addColorKeyBoard(i, gameStats.color.green, gameStats.audio.good);
               pointWinner++;
               if (pointWinner === gameStats.win) {
                 setTimeout(() => setIsWin(1), gameStats.endGameDelay);
               }
+              // Correct Letter
             } else if (
               word.toUpperCase().includes(caseKeys[i].innerText) &&
               caseKeys[i].innerText.toUpperCase() !==
                 words[comparisonIndex].toUpperCase()
             ) {
               addColorKeyBoard(i, gameStats.color.orange);
-              addColor(i, gameStats.color.orange);
+              addClass(i, gameStats.color.orange, gameStats.audio.correct);
+              // Error Letter
             } else {
               addColorKeyBoard(i, gameStats.color.red);
-              addColor(i, gameStats.color.red);
+              addClass(i, gameStats.color.red, gameStats.audio.error);
               if (currentId === gameStats.loose) {
                 setTimeout(() => setIsWin(2), 2500);
               }
             }
           },
-          (i % gameStats.row) * 500,
+          (i % gameStats.row) * 1200,
         );
       }
       setTimeout(() => {
@@ -138,7 +151,7 @@ export const CheckGame = () => {
 
   return (
     <>
-      <div className=" m-auto w-64">
+      <div className=" m-auto ">
         {[...Array(6)].map((_, rowIndex) => (
           <div key={rowIndex} className="m-1 flex justify-center gap-1">
             {[...Array(5)].map((_, caseIndex) => {

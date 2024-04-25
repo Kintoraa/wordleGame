@@ -10,7 +10,6 @@ export const CaseGameBoard = ({ setClickledKey }) => {
           {[...Array(5)].map((_, caseIndex) => {
             const id = rowIndex * 5 + caseIndex;
             return (
-              // eslint-disable-next-line react/rop-types
               <Case
                 key={caseIndex}
                 ref={(el) => (refs.current[id] = el)}
