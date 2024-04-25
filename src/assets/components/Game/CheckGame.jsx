@@ -139,16 +139,18 @@ export const CheckGame = () => {
 
   return (
     <>
-      {[...Array(6)].map((_, rowIndex) => (
-        <div key={rowIndex} className="m-1 flex justify-center gap-1">
-          {[...Array(5)].map((_, caseIndex) => {
-            const id = rowIndex * 5 + caseIndex;
-            return (
-              <Case key={caseIndex} ref={(el) => (refs.current[id] = el)} />
-            );
-          })}
-        </div>
-      ))}
+      <div className=" m-auto w-64">
+        {[...Array(6)].map((_, rowIndex) => (
+          <div key={rowIndex} className="m-1 flex justify-center gap-1">
+            {[...Array(5)].map((_, caseIndex) => {
+              const id = rowIndex * 5 + caseIndex;
+              return (
+                <Case key={caseIndex} ref={(el) => (refs.current[id] = el)} />
+              );
+            })}
+          </div>
+        ))}
+      </div>
       {isWin === 1 && <WinDialog></WinDialog>}
       {isWin === 2 && <LoseDialog word={word}></LoseDialog>}
       <KeyBoard setClicledKey={setClickedKey}></KeyBoard>
