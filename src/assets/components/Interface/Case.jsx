@@ -1,6 +1,6 @@
 import { forwardRef, useContext, useRef } from "react";
-import { alphabet } from "./GameBoard.jsx";
 import { Context } from "../Hooks/UseContextForLetter.jsx";
+import { alphabetKeyBoard } from "../general/alphabet.js";
 
 export const Case = forwardRef(({ getText }, ref) => {
   return (
@@ -11,21 +11,25 @@ export const Case = forwardRef(({ getText }, ref) => {
   );
 });
 
-export const CaseKeyBoard = () => {
+export const CaseKeyBoard = ({ setClicledKey }) => {
   const { classLetter } = useContext(Context);
   const ref = useRef();
 
   return (
     <>
-      {alphabet.map((letter, i) => (
-        <div
+      {alphabetKeyBoard.map((letter, i) => (
+        <button
           className={`flex size-10 items-center justify-center  rounded border border-gray-500 text-xl font-bold text-white ${classLetter[letter]} `}
           ref={ref}
           value={letter}
           key={letter}
+          onClick={() => {
+            const event = new KeyboardEvent("keydown", { key: letter });
+            setClicledKey(event);
+          }}
         >
           {letter}
-        </div>
+        </button>
       ))}
     </>
   );

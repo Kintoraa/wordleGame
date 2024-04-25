@@ -1,7 +1,7 @@
 import { Case } from "./Case.jsx";
 import { useRef } from "react";
 
-export const CaseGameBoard = ({ onClick }) => {
+export const CaseGameBoard = ({ setClickledKey }) => {
   const refs = useRef([]);
   return (
     <>
@@ -10,11 +10,11 @@ export const CaseGameBoard = ({ onClick }) => {
           {[...Array(5)].map((_, caseIndex) => {
             const id = rowIndex * 5 + caseIndex;
             return (
-              // eslint-disable-next-line react/prop-types
+              // eslint-disable-next-line react/rop-types
               <Case
                 key={caseIndex}
                 ref={(el) => (refs.current[id] = el)}
-                onClick={onClick}
+                setClickledKey={setClickledKey}
               />
             );
           })}

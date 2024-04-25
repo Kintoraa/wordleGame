@@ -7,7 +7,6 @@ export const GameBoard = ({ word }) => {
       <div className=" m-auto w-64">
         <CheckGame word={word}></CheckGame>
       </div>
-      {/*<KeyBoard></KeyBoard>*/}
     </UseContextForLetter>
   );
 };
