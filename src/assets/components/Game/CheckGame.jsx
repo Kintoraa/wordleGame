@@ -34,13 +34,12 @@ export const CheckGame = () => {
   useEffect(() => {
     const caseKeys = refs.current;
     const keydownHandler = (e) => {
-      console.log(e);
       const key = e.key.toUpperCase();
       const words = word && word.split("");
       let start = currentId - gameStats.row;
       let pointWinner = 0;
-      console.log(word);
-      if ((isCompletedRow && key === "ENTER") || (key === "↵" && words)) {
+
+      if (words && isCompletedRow && (key === "ENTER" || key === "↵")) {
         checkLetter(start, words, pointWinner);
       }
 
