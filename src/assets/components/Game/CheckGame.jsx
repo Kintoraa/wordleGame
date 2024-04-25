@@ -6,8 +6,8 @@ import { WinDialog } from "./WinDialog.jsx";
 import { Case } from "../Interface/Case.jsx";
 import { KeyBoard } from "../Interface/KeyBoard.jsx";
 import { alphabet } from "../general/alphabet.js";
-import correct from "../../sounds/correct.mp3";
-import good from "../../sounds/good.mp3";
+import correct from "../../sounds/good.mp3";
+import veryGood from "../../sounds/correct.mp3";
 import error from "../../sounds/error.mp3";
 
 const gameStats = {
@@ -24,7 +24,7 @@ const gameStats = {
   },
   audio: {
     correct: correct,
-    good: good,
+    good: veryGood,
     error: error,
   },
 };
@@ -98,8 +98,8 @@ export const CheckGame = () => {
               caseKeys[i].innerText.toUpperCase() ===
                 words[comparisonIndex].toUpperCase()
             ) {
-              addClass(i, gameStats.color.green);
-              addColorKeyBoard(i, gameStats.color.green, gameStats.audio.good);
+              addClass(i, gameStats.color.green, gameStats.audio.good);
+              addColorKeyBoard(i, gameStats.color.green);
               pointWinner++;
               if (pointWinner === gameStats.win) {
                 setTimeout(() => setIsWin(1), gameStats.endGameDelay);
