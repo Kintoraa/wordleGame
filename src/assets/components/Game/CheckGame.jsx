@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../Hooks/UseContextForLetter.jsx";
 import { UseWord } from "../Hooks/UseWord.jsx";
-import { LoseDialog } from "./LoseDialog.jsx";
+import { LooseDialog } from "./LooseDialog.jsx";
 import { WinDialog } from "./WinDialog.jsx";
 import { Case } from "../Interface/Case.jsx";
 import { KeyBoard } from "../Interface/KeyBoard.jsx";
@@ -164,7 +164,7 @@ export const CheckGame = () => {
         ))}
       </div>
       {isWin === 1 && <WinDialog></WinDialog>}
-      {isWin === 2 && <LoseDialog word={word}></LoseDialog>}
+      {isWin === 2 && <LooseDialog word={word}></LooseDialog>}
       <KeyBoard setClicledKey={setClickedKey}></KeyBoard>
     </>
   );

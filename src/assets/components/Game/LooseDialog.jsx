@@ -1,6 +1,6 @@
 import loose from "../../sounds/loose.mp3";
 
-export const LoseDialog = ({ word }) => {
+export const LooseDialog = ({ word }) => {
   const loose_mp3 = new Audio(loose);
   loose_mp3.volume = 0.2;
   loose_mp3.play();

@@ -3,12 +3,27 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../Hooks/UseContextForLetter.jsx";
 import { alphabet } from "./GameBoard.jsx";
 import { UseWord } from "../Hooks/UseWord.jsx";
+import { WinDialog } from "../Game/WinDialog.jsx";
+import { LooseDialog } from "../Game/LooseDialog.jsx";
+
+const gameStats = {
+  win: 5,
+  loose: 30,
+  row: 6,
+  casesPerRow: 5,
+  endGameDelay: 500,
+  reset_Delay: 2500,
+  completionIds: [4, 9, 14, 19, 24, 29],
+  color: {
+    green: "bg-green-500",
+    orange: "bg-orange-500",
+    red: "bg-red-500",
+  },
+};
 
 export const LineBoard = () => {
   const word = UseWord();
   const refs = useRef([]);
-  const rows = 6;
-  const casesPerRow = 5;
   const [currentId, setCurrentId] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const { setClassLetter } = useContext(Context);
@@ -32,13 +47,13 @@ export const LineBoard = () => {
                 caseKeys[i].innerText.toUpperCase() ===
                   words[comparisonIndex].toUpperCase()
               ) {
-                caseKeys[i].classList.add("bg-green-500");
+                caseKeys[i].classList.add(gameStats.color.green);
                 setClassLetter((prevClass) => ({
                   ...prevClass,
-                  [caseKeys[i].innerText]: "bg-green-500",
+                  [caseKeys[i].innerText]: gameStats.color.green,
                 }));
                 pointWinner++;
-                if (pointWinner === 5) {
+                if (pointWinner === gameStats.win) {
                   setTimeout(() => setIsWin(1), 1500);
                 }
               } else if (
@@ -48,28 +63,28 @@ export const LineBoard = () => {
               ) {
                 setClassLetter((prevClass) => ({
                   ...prevClass,
-                  [caseKeys[i].innerText]: "bg-orange-500",
+                  [caseKeys[i].innerText]: gameStats.color.orange,
                 }));
-                caseKeys[i].classList.add("bg-orange-500");
+                caseKeys[i].classList.add(gameStats.color.orange);
               } else {
                 setClassLetter((prevClass) => ({
                   ...prevClass,
-                  [caseKeys[i].innerText]: "bg-red-500",
+                  [caseKeys[i].innerText]: gameStats.color.red,
                 }));
-                caseKeys[i].classList.add("bg-red-500");
-                if (currentId === 30) {
-                  setTimeout(() => setIsWin(2), 2500);
+                caseKeys[i].classList.add(gameStats.color.red);
+                if (currentId === gameStats.loose) {
+                  setTimeout(() => setIsWin(2), gameStats.reset_Delay);
                 }
               }
             },
             (i % 5) * 500,
           );
         }
-        setTimeout(() => setIsCompleted(false), 2500);
+        setTimeout(() => setIsCompleted(false), gameStats.reset_Delay);
       }
 
       if (alphabet.includes(key) && !isCompleted) {
-        if ([4, 9, 14, 19, 24, 29].includes(currentId)) setIsCompleted(true);
+        if (gameStats.completionIds.includes(currentId)) setIsCompleted(true);
         if (caseKeys[currentId] && !isCompleted) {
           caseKeys[currentId].innerText = key;
           setCurrentId((prevId) => prevId + 1);
@@ -92,48 +107,18 @@ export const LineBoard = () => {
 
   return (
     <>
-      {[...Array(rows)].map((_, rowIndex) => (
+      {[...Array(gameStats.row)].map((_, rowIndex) => (
         <div key={rowIndex} className="m-1 flex justify-center gap-1">
-          {[...Array(casesPerRow)].map((_, caseIndex) => {
-            const id = rowIndex * casesPerRow + caseIndex;
+          {[...Array(gameStats.casesPerRow)].map((_, caseIndex) => {
+            const id = rowIndex * gameStats + caseIndex;
             return (
               <Case key={caseIndex} ref={(el) => (refs.current[id] = el)} />
             );
           })}
         </div>
       ))}
-      {isWin === 1 && (
-        <dialog
-          open={true}
-          className={
-            "absolute top-1/2 flex size-80 -translate-y-1/2 flex-col items-center justify-center gap-4 rounded-lg border  border-white bg-gray-800"
-          }
-        >
-          <h1 className="text-2xl font-bold text-white">YOU WIN</h1>
-          <button
-            className="h-10 w-1/2 rounded-lg border bg-orange-400"
-            onClick={() => window.location.reload()}
-          >
-            Rejouer
-          </button>
-        </dialog>
-      )}
-      {isWin === 2 && (
-        <dialog
-          open={true}
-          className={
-            "absolute top-1/2 flex size-80 -translate-y-1/2 flex-col items-center justify-center gap-4 rounded-lg border  border-white bg-gray-800"
-          }
-        >
-          <h1 className="text-2xl font-bold text-red-700">YOU LOSE</h1>
-          <button
-            className="h-10 w-1/2 rounded-lg border bg-orange-400"
-            onClick={() => window.location.reload()}
-          >
-            Rejouer
-          </button>
-        </dialog>
-      )}
+      {isWin === 1 && <WinDialog></WinDialog>}
+      {isWin === 2 && <LooseDialog word={word}></LooseDialog>}
     </>
   );
 };
