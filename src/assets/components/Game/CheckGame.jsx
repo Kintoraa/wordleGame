@@ -67,8 +67,9 @@ export const CheckGame = () => {
     };
 
     const addText = (key) => {
+      console.log(isCheckin);
       if (gameStats.completionIds.includes(currentId)) setIsCompletedRow(true);
-      if (caseKeys[currentId] && !isCompletedRow) {
+      if (caseKeys[currentId] && !isCompletedRow && !isCheckin) {
         caseKeys[currentId].innerText = key;
         setCurrentId((prevId) => prevId + 1);
       }
@@ -127,7 +128,7 @@ export const CheckGame = () => {
       setTimeout(() => {
         setIsCompletedRow(false);
         setIsCheckin(false);
-      }, gameStats.reset_Delay);
+      }, 6000);
     };
 
     const addColorKeyBoard = (index, color) => {
